@@ -1,0 +1,14 @@
+.left-panel {
+  padding: 5px;
+  border: 1px solid #000;
+  background-color: #71a9da;
+  flex: 0 0 auto;
+  min-width: 150px;
+  overflow-y: auto;
+}
+
+.main-panel {
+  flex: 1 1 auto;
+  background-color: #d0e2f2;
+  overflow-y: auto;
+}

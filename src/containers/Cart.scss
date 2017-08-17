@@ -1,0 +1,18 @@
+.cart-page {
+  .empty-cart {
+    font-size: 2em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+  .cart-total {
+    padding: 10px;
+    font-size: 1.8em;
+    flex: 0 1 auto;
+  }
+  .product-list {
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+}

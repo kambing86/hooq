@@ -1,0 +1,17 @@
+.product-details {
+  font-size: 2em;
+  > div {
+    padding: 1em;
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+  .image-column {
+    min-width: 40%;
+    img {
+      width: 100%;
+    }
+  }
+  .product-desc {
+    font-size: 0.8em;
+  }
+}
