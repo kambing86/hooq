@@ -4,6 +4,8 @@ const webpack = require("webpack");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
 const webpackConfig = require("./webpack.config");
+const graphqlHTTP = require("express-graphql");
+const MyGraphQLSchema = require("./server/graphql-schema");
 
 const app = express();
 
@@ -19,5 +21,10 @@ if (environment === "development") {
 }
 
 app.use(skipMap());
+
+app.use("/graphql", graphqlHTTP({
+  schema: MyGraphQLSchema,
+  graphiql: true,
+}));
 
 app.listen(8080, () => {});
