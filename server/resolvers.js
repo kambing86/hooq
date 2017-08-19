@@ -1,44 +1,60 @@
-const fetch = require("node-fetch");
+const {
+  getTvList,
+  getTv,
+  getTvGenres,
+  getTvSeason,
+} = require("./apiHelpers");
 
-const MOVIE_DB_3_KEY = process.env.MOVIE_DB_3_KEY;
-const genresPromise = fetch(`https://api.themoviedb.org/3/genre/tv/list?api_key=${MOVIE_DB_3_KEY}`).then(result => result.json());
+function addTvIdToSeason(tv) {
+  return Object.assign({}, tv, {
+    seasons: tv.seasons.map(season => Object.assign({
+      tvId: tv.id,
+    }, season)),
+  });
+}
 
 module.exports = {
   Query: {
     tvs(obj, args) {
-      const { page = "1" } = args;
-      return fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${MOVIE_DB_3_KEY}&page=${page}`)
-        .then(result => result.json())
-        .then(json => json.results);
-        // .then(json => json.results
-        //   .map(tv =>
-        //     fetch(`https://api.themoviedb.org/3/tv/${tv.id}?api_key=${MOVIE_DB_3_KEY}`)
-        //       .then(result => result.json())));
+      return getTvList(args);
     },
     tv(obj, args) {
-      const { id } = args;
-      if (id === undefined) return null;
-      return fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${MOVIE_DB_3_KEY}`)
-        .then(result => result.json());
+      return getTv(args);
     },
-    genres() {
-      return genresPromise
+    tv_genres() {
+      return getTvGenres()
         .then(json => json.genres);
     },
-    genre(obj, args) {
+    tv_genre(obj, args) {
       const { id } = args;
-      return genresPromise
+      return getTvGenres()
         .then(json => json.genres.find(genre => genre.id === id))
         .then(result => result || { id, name: null });
     },
   },
   TV: {
-    genre_ids(tv) {
+    genres(tv) {
       return tv.genre_ids
         .map(id =>
-          genresPromise
+          getTvGenres()
             .then(json => json.genres.find(genre => genre.id === id))
             .then(result => result || { id, name: null }));
+    },
+    details(tv) {
+      if (tv.seasons) {
+        return addTvIdToSeason(tv);
+      }
+      return getTv({ id: tv.id })
+        .then(tvDetails => addTvIdToSeason(tvDetails));
+    },
+    origin_countries(tv) {
+      return tv.origin_country;
+    },
+  },
+  TV_Season: {
+    details(season) {
+      if (season.episodes) return season;
+      return getTvSeason({ tvId: season.tvId, seasonNumber: season.season_number });
     },
   },
 };

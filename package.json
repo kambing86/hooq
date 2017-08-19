@@ -21,6 +21,7 @@
     "express-graphql": "^0.6.7",
     "graphql": "^0.10.5",
     "graphql-tools": "^1.2.1",
+    "lru-cache": "^4.1.1",
     "node-fetch": "^1.7.2",
     "skip-map": "^1.0.0"
   },
@@ -33,7 +34,7 @@
     "awesome-typescript-loader": "^3.2.3",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
-    "babel-loader": "^7.1.1",
+    "babel-loader": "^7.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",

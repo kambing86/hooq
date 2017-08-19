@@ -10,6 +10,10 @@ const MyGraphQLSchema = require("./server/graphql-schema");
 const app = express();
 
 const environment = process.env.NODE_ENV;
+const graphqlConfig = {
+  schema: MyGraphQLSchema,
+  graphiql: true,
+};
 if (environment === "development") {
   const compiler = webpack(webpackConfig);
   app.use(webpackDevMiddleware(compiler, {
@@ -18,13 +22,11 @@ if (environment === "development") {
   app.use(webpackHotMiddleware(compiler));
 } else {
   app.use(express.static("dist"));
+  graphqlConfig.graphiql = false;
 }
 
 app.use(skipMap());
 
-app.use("/graphql", graphqlHTTP({
-  schema: MyGraphQLSchema,
-  graphiql: true,
-}));
+app.use("/graphql", graphqlHTTP(graphqlConfig));
 
 app.listen(8080, () => {});
