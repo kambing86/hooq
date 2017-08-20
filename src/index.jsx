@@ -14,8 +14,7 @@ if (DEVELOPMENT) {
 import "./index.pug";
 import "./index.scss";
 
-import App from "./components/App";
-import ajaxRequest from "./helpers/ajaxRequest";
+import App from "./components/App.tsx";
 import * as reducers from "./reducers";
 
 let enhancer;
@@ -27,7 +26,6 @@ const store = createStore(
   combineReducers(reducers),
   enhancer,
 );
-
 const appRoot = document.getElementById("app");
 
 const render = () => {
@@ -53,20 +51,8 @@ render();
 if (DEVELOPMENT) {
   // Hot Module Replacement API
   if (module.hot) {
-    module.hot.accept("./components/App", () => {
+    module.hot.accept("./components/App.tsx", () => {
       render();
     });
   }
 }
-
-(async () => {
-  try {
-    const data = JSON.parse(await ajaxRequest.get("/data/products.json"));
-    store.dispatch({
-      type: "INIT_DATA",
-      data,
-    });
-  } catch (e) {
-    console.error(e);
-  }
-})();

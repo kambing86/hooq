@@ -9,12 +9,12 @@ const MyGraphQLSchema = require("./server/graphql-schema");
 
 const app = express();
 
-const environment = process.env.NODE_ENV;
+const isDevelopment = process.env.NODE_ENV === "development";
 const graphqlConfig = {
   schema: MyGraphQLSchema,
   graphiql: true,
 };
-if (environment === "development") {
+if (isDevelopment) {
   const compiler = webpack(webpackConfig);
   app.use(webpackDevMiddleware(compiler, {
     // publicPath: webpackConfig.output.path,
@@ -29,4 +29,8 @@ app.use(skipMap());
 
 app.use("/graphql", graphqlHTTP(graphqlConfig));
 
-app.listen(8080, () => {});
+app.listen(8080, () => {
+  if (isDevelopment) {
+    require("opn")("http://localhost:8080");
+  }
+});
