@@ -29,8 +29,9 @@ app.use(skipMap());
 
 app.use("/graphql", graphqlHTTP(graphqlConfig));
 
-app.listen(8080, () => {
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
   if (isDevelopment) {
-    require("opn")("http://localhost:8080");
+    require("opn")(`http://localhost:${port}`);
   }
 });
