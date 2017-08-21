@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js --optimize-minimize --display-optimization-bailout",
     "start:dev": "cross-env NODE_ENV=development EXPRESS=true nodemon -r dotenv/config index.js --watch server index.js",
-    "start": "npm run build && cross-env NODE_ENV=production EXPRESS=true node index.js",
+    "start": "cross-env NODE_ENV=production EXPRESS=true node index.js",
     "eslint": "eslint '**/*.js' '**/*.jsx'",
     "eslint-fix": "eslint '**/*.js' '**/*.jsx' --fix",
     "upgrade": "gulp upgrade"
@@ -58,6 +58,7 @@
     "gulp": "^3.9.1",
     "gulp-util": "^3.0.8",
     "html-loader": "^0.5.1",
+    "localforage": "^1.5.0",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
