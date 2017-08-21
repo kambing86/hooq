@@ -14,7 +14,7 @@ if (DEVELOPMENT) {
 import "./index.pug";
 import "./index.scss";
 
-import App from "./components/App.tsx";
+import App from "./components/App";
 import * as reducers from "./reducers";
 
 let enhancer;
@@ -51,7 +51,7 @@ render();
 if (DEVELOPMENT) {
   // Hot Module Replacement API
   if (module.hot) {
-    module.hot.accept("./components/App.tsx", () => {
+    module.hot.accept("./components/App", () => {
       render();
     });
   }

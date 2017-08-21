@@ -67,11 +67,6 @@ body,
   flex: 1 1 auto;
 }
 
-.btn-add-cart {
-  border: 1px solid #000;
-  background-color: #de6768;
-  font-size: 1.5em;
-  padding: 0.5em 1em;
-  margin-top: 0.5em;
-  cursor: pointer;
+.main-view {
+  overflow: auto;
 }

@@ -5,6 +5,6 @@ const Movie = () => (
     <h1>Movie</h1>
     <h2>In construction...</h2>
   </div>
-)
+);
 
 export default Movie;

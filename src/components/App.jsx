@@ -5,6 +5,7 @@ import TopBar from "../containers/TopBar";
 import Home from "../containers/Home";
 import Movie from "./Movie";
 import Tv from "./Tv";
+import TvDetail from "./TvDetail";
 
 const App = () => (
   <Router>
@@ -12,6 +13,7 @@ const App = () => (
       <TopBar />
       <Route exact path="/" component={Home} />
       <Route exact path="/tv" component={Tv} />
+      <Route exact path="/tv/:id" component={TvDetail} />
       <Route exact path="/movie" component={Movie} />
     </div>
   </Router>

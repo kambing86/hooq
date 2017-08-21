@@ -1,0 +1,12 @@
+@mixin tv-detail {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.tv-detail-overview {
+  @include tv-detail();
+}
+
+.tv-detail-season {
+  @include tv-detail();
+}

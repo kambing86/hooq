@@ -34,6 +34,7 @@ module.exports = {
   },
   TV: {
     genres(tv) {
+      if (tv.genres) return tv.genres;
       return tv.genre_ids
         .map(id =>
           getTvGenres()
