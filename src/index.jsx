@@ -64,7 +64,8 @@ if (DEVELOPMENT) {
 
 (async () => {
   store.dispatch(setLoading(true));
-  const fav = await favouriteCache.get();
+  let fav = await favouriteCache.get();
+  if (fav === null) fav = [];
   store.dispatch(initFavourite(fav));
   store.dispatch(setLoading(false));
 })();

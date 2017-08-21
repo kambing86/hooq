@@ -25,6 +25,4 @@ function favouriteReducer(state = [], action) {
   }
 }
 
-window.favouriteCache = favouriteCache;
-
 export default favouriteReducer;
