@@ -1,11 +1,23 @@
 const cacheHelper = require("./cacheHelper");
+const queryString = require("query-string");
+const moment = require("moment");
 
 const MOVIE_DB_3_KEY = process.env.MOVIE_DB_3_KEY;
 const BASE_URL = "https://api.themoviedb.org/3/";
 
 module.exports = {
-  getTvList({ page = 1 }) {
-    return cacheHelper.fetchJSON(`${BASE_URL}discover/tv?api_key=${MOVIE_DB_3_KEY}&page=${page}`)
+  getTvList(query = {}) {
+    const queryObject = Object.assign({
+      api_key: MOVIE_DB_3_KEY,
+      "first_air_date.lte": moment().format("YYYY-MM-DD"),
+    }, query);
+    if (query.sort_by === "vote_average.desc") {
+      Object.assign(queryObject, {
+        "vote_count.gte": 100,
+      });
+    }
+    const queryValues = queryString.stringify(queryObject);
+    return cacheHelper.fetchJSON(`${BASE_URL}discover/tv?${queryValues}`)
       .then(json => json.results);
   },
   getTv({ id }) {

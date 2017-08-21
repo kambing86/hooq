@@ -1,0 +1,18 @@
+@mixin tv-season {
+  margin: 0 0.5em;
+}
+
+.tv-season-selector {
+  font-size: 1.2em;
+}
+
+.season-number {
+  @include tv-season();
+  color: #951b81;
+}
+
+.season-link {
+  @include tv-season();
+  text-decoration: none;
+  color: #000;
+}

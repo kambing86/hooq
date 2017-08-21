@@ -7,7 +7,8 @@ const TopBar = () => (
   <div className="col-100 top-bar">
     <Link to="/" className="link">Home</Link>
     <Link to="/tv" className="link">TV</Link>
-    <Link to="/movie" className="link cart-button">Movie</Link>
+    <Link to="/movie" className="link">Movie</Link>
+    <Link to="/favourite" className="link">Favourite</Link>
   </div>
 );
 

@@ -14,8 +14,13 @@ if (DEVELOPMENT) {
 import "./index.pug";
 import "./index.scss";
 
-import App from "./components/App";
+import App from "./containers/App";
 import * as reducers from "./reducers";
+
+import favouriteCache from "./helpers/favouriteCache";
+
+import setLoading from "./actions/setLoading";
+import initFavourite from "./actions/initFavourite";
 
 let enhancer;
 if (DEVELOPMENT) {
@@ -51,8 +56,15 @@ render();
 if (DEVELOPMENT) {
   // Hot Module Replacement API
   if (module.hot) {
-    module.hot.accept("./components/App", () => {
+    module.hot.accept("./containers/App", () => {
       render();
     });
   }
 }
+
+(async () => {
+  store.dispatch(setLoading(true));
+  const fav = await favouriteCache.get();
+  store.dispatch(initFavourite(fav));
+  store.dispatch(setLoading(false));
+})();

@@ -1,9 +1,7 @@
-import cartReducer from "./cartReducer";
-import filterReducer from "./filterReducer";
-import productReducer from "./productReducer";
+import isLoadingReducer from "./isLoadingReducer";
+import favouriteReducer from "./favouriteReducer";
 
 export {
-  cartReducer,
-  filterReducer,
-  productReducer,
+  isLoadingReducer,
+  favouriteReducer,
 };

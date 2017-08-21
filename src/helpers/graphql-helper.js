@@ -1,5 +1,6 @@
 import ApolloClient, { createNetworkInterface } from "apollo-client";
 import gql from "graphql-tag";
+import _ from "lodash";
 
 const client = new ApolloClient({
   networkInterface: createNetworkInterface({
@@ -8,14 +9,22 @@ const client = new ApolloClient({
 });
 
 export default {
-  getTvList() {
+  getTvList(query = {}) {
+    let queryString = "";
+    const queryValues = _.map(query, (value, key) => `${key}:${JSON.stringify(value)}`);
+    if (queryValues.length > 0) {
+      queryString = `(${queryValues.join(",")})`;
+    }
     return client.query({
       query: gql `
         query {
-          tvs {
+          tvs${queryString} {
             id
             name
             poster_path
+            popularity
+            vote_average
+            first_air_date
             genres {
               id
               name
@@ -30,6 +39,7 @@ export default {
       query: gql `
         query {
           tv(id:${id}) {
+            id
             name
             genres {
               id

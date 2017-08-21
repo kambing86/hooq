@@ -5,8 +5,10 @@
 
 .tv-detail-overview {
   @include tv-detail();
+  max-width: 50%;
 }
 
 .tv-detail-season {
   @include tv-detail();
+  max-width: 50%;
 }
