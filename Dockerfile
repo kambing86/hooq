@@ -1,5 +1,7 @@
 FROM node:8.4-alpine
 WORKDIR /app
+RUN chown -R node /app
+USER node
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .

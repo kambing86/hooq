@@ -63,9 +63,9 @@ type TV {
 
 type Query {
   tvs(page: Int, sort_by: String): [TV]
-  tv(id: ID): TV
+  tv(id: ID!): TV
   tv_genres: [TV_Genre]
-  tv_genre(id: ID): TV_Genre
+  tv_genre(id: ID!): TV_Genre
 }
 
 schema {
