@@ -1,6 +1,6 @@
 const webpack = require("webpack");
 const path = require("path");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+// const CopyWebpackPlugin = require("copy-webpack-plugin");
 // const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const sourcePath = path.join(__dirname, "src");
@@ -93,7 +93,7 @@ const config = {
         NODE_ENV: JSON.stringify(environment),
       },
     }),
-    new CopyWebpackPlugin([{ from: "assets" }]),
+    // new CopyWebpackPlugin([{ from: "assets" }]),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       compress: {

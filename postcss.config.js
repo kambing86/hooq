@@ -9,7 +9,7 @@ module.exports =
       cleancss(),
     ],
   });
-  // (ctx) => {
-  // console.log(ctx);
-  // console.log(ctx.webpack.resourcePath);
-  // }
+// (ctx) => {
+// console.log(ctx);
+// console.log(ctx.webpack.resourcePath);
+// }

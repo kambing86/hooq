@@ -20,9 +20,9 @@ class TvSeason extends React.Component {
           <div className="tv-season-selector">
             Season:
             {
-              seasons.map(season => (season.season_number === displaySeasonNumber) ?
-                  (<span key={season.id} className="season-number">{season.season_number}</span>) :
-                  (<Link key={season.id} className="season-link" to={`/tv/${id}/${season.season_number}`}>{season.season_number}</Link>))
+              seasons.map(season => ((season.season_number === displaySeasonNumber) ?
+                (<span key={season.id} className="season-number">{season.season_number}</span>) :
+                (<Link key={season.id} className="season-link" to={`/tv/${id}/${season.season_number}`}>{season.season_number}</Link>)))
             }
           </div>
           <ul>

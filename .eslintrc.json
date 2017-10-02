@@ -54,7 +54,8 @@
     ],
     "react/jsx-curly-spacing": [2, "never"],
     "import/no-extraneous-dependencies": 0,
-    "import/first": 0
+    "import/first": 0,
+    "jsx-a11y/href-no-hash": 0
   },
   "globals": {
     "DEVELOPMENT": true
