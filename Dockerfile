@@ -1,9 +1,9 @@
 FROM node:8.6-alpine
 WORKDIR /app
-RUN chown -R node /app
+RUN npm install yarn -g && chown -R node /app
 USER node
-COPY package.json package-lock.json ./
-RUN npm install
+COPY package.json yarn.lock ./
+RUN yarn install
 COPY . .
-RUN npm run build
+RUN yarn build
 CMD npm start
