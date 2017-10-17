@@ -19,9 +19,21 @@ MOVIE_DB_3_KEY=<API_KEY>
 - Docker in Heroku (https://kambing86-hooq.herokuapp.com)
 
 # How to deploy
-```
+```bash
 heroku login
 heroku container:login
 heroku git:remote -a kambing86-hooq
 heroku container:push web
+```
+
+# How to deploy to Minikube
+start minikube with local registry
+```bash
+eval $(minikube docker-env)
+docker build . -t hooq
+docker tag hooq localhost:5000/hooq
+docker push localhost:5000/hooq
+kubectl run hooq --env="MOVIE_DB_3_KEY=<API_KEY>" --image=localhost:5000/hooq --port=8080
+kubectl expose deployment hooq --type=NodePort
+minikube service hooq --url
 ```
