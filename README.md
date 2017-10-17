@@ -35,21 +35,24 @@ eval $(minikube docker-env)
 docker build . -t hooq
 docker tag hooq localhost:5000/hooq
 docker push localhost:5000/hooq
-kubectl run hooq --env="MOVIE_DB_3_KEY=<API_KEY>" --image=localhost:5000/hooq --port=8080
+kubectl config use-context minikube
+kubectl run hooq --image=localhost:5000/hooq --env="MOVIE_DB_3_KEY=<API_KEY>" --port=8080
 kubectl expose deployment hooq --type=NodePort
-minikube service hooq --url
+minikube service hooq
 ```
 
 # How to deploy to Minishift
 start minishift
 ```bash
 eval $(minishift docker-env)
-docker login -u developer -p $(oc whoami -t) $(minishift openshift registry)
 docker build . -t hooq
+eval $(minishift oc-env)
+oc config use-context minishift
+docker login -u developer -p $(oc whoami -t) $(minishift openshift registry)
 docker tag hooq $(minishift openshift registry)/myproject/hooq
 docker push $(minishift openshift registry)/myproject/hooq
 oc new-app --image-stream=hooq --name=hooq --env="MOVIE_DB_3_KEY=<API_KEY>"
-oc expose dc hooq --type=LoadBalancer --name=hooq --port=8080
+oc expose dc hooq --name=hooq --port=8080
 oc expose service hooq
 minishift openshift service hooq --in-browser
 ```
