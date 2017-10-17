@@ -1,7 +1,7 @@
 # How to Run
 1. install chrome
-2. install node.js v8.6.0
-3. install yarn v1.1.0
+2. install node.js v8.7.0
+3. install yarn v1.2.1
 4. ```yarn && yarn start:dev```
 
 # Environment Variables
@@ -17,8 +17,10 @@ MOVIE_DB_3_KEY=<API_KEY>
 - Offline storage with localForage (https://github.com/localForage/localForage)
 - Support Typescript
 - Docker in Heroku (https://kambing86-hooq.herokuapp.com)
+- Docker in Kubernetes / Minikube
+- Docker in Openshift / Minishift
 
-# How to deploy
+# How to deploy to Heroku
 ```bash
 heroku login
 heroku container:login
@@ -36,4 +38,18 @@ docker push localhost:5000/hooq
 kubectl run hooq --env="MOVIE_DB_3_KEY=<API_KEY>" --image=localhost:5000/hooq --port=8080
 kubectl expose deployment hooq --type=NodePort
 minikube service hooq --url
+```
+
+# How to deploy to Minishift
+start minishift
+```bash
+eval $(minishift docker-env)
+docker login -u developer -p $(oc whoami -t) $(minishift openshift registry)
+docker build . -t hooq
+docker tag hooq $(minishift openshift registry)/myproject/hooq
+docker push $(minishift openshift registry)/myproject/hooq
+oc new-app --image-stream=hooq --name=hooq --env="MOVIE_DB_3_KEY=<API_KEY>"
+oc expose dc hooq --type=LoadBalancer --name=hooq --port=8080
+oc expose service hooq
+minishift openshift service hooq --in-browser
 ```
