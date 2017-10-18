@@ -22,6 +22,7 @@ MOVIE_DB_3_KEY=<API_KEY>
 
 # How to deploy to Heroku
 ```bash
+#!/bin/bash
 heroku login
 heroku container:login
 heroku git:remote -a kambing86-hooq
@@ -31,6 +32,7 @@ heroku container:push web
 # How to deploy to Minikube
 start minikube with local registry
 ```bash
+#!/bin/bash
 eval $(minikube docker-env)
 docker build . -t hooq
 docker tag hooq localhost:5000/hooq
@@ -44,6 +46,7 @@ minikube service hooq
 # How to deploy to Minishift
 start minishift
 ```bash
+#!/bin/bash
 eval $(minishift docker-env)
 docker build . -t hooq
 eval $(minishift oc-env)
