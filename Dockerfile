@@ -6,4 +6,4 @@ COPY package.json yarn.lock ./
 RUN yarn install --pure-lockfile
 COPY . .
 RUN yarn build && rm -rf node_modules && yarn install --pure-lockfile --prod && yarn cache clean
-CMD npm start
+CMD ["node", "index.js"]

@@ -2,11 +2,12 @@
 1. install chrome
 2. install node.js v8.7.0
 3. install yarn v1.2.1
-4. ```yarn && yarn start:dev```
+4. ```yarn && yarn start```
 
 # Environment Variables
-- create `.env` file for local
+- create `.env` file for local and deployment
 ```
+NODE_ENV=production
 MOVIE_DB_3_KEY=<API_KEY>
 ```
 
