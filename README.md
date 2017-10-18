@@ -52,7 +52,7 @@ docker login -u developer -p $(oc whoami -t) $(minishift openshift registry)
 docker tag hooq $(minishift openshift registry)/myproject/hooq
 docker push $(minishift openshift registry)/myproject/hooq
 oc new-app --image-stream=hooq --name=hooq --env="MOVIE_DB_3_KEY=<API_KEY>"
-oc expose dc hooq --name=hooq --port=8080
+oc expose dc hooq --name=hooq --type=NodePort --port=8080
 oc expose service hooq
 minishift openshift service hooq --in-browser
 ```
