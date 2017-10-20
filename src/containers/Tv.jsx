@@ -25,6 +25,11 @@ class Tv extends React.Component {
     const queryValues = this.getDefaultQueryString();
     this.getDataAndSetState(queryValues);
   }
+  componentDidUpdate(prevProps) {
+    if (_.eq(this.props.location, prevProps.location)) return;
+    const queryValues = this.getDefaultQueryString();
+    this.getDataAndSetState(queryValues);
+  }
   getDefaultQueryString() {
     const { search } = this.props.location;
     const queryValues = queryString.parse(search);
@@ -80,15 +85,16 @@ class Tv extends React.Component {
         <div className="main-control text-center">
           Sort
           <select onChange={e => this.changeSort(e)} value={this.getDefaultQueryString().sort_by}>
-            {_.map(sortValue,
-              (value, key) =>
-                (
-                  <option
-                    key={key}
-                    value={value}
-                  >
-                    {key}
-                  </option>))}
+            {_.map(sortValue, (value, key) =>
+              (
+                <option
+                  key={key}
+                  value={value}
+                >
+                  {key}
+                </option>
+              ))
+            }
           </select>
         </div>
         <div className="tv-list-center">

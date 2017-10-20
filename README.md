@@ -60,3 +60,16 @@ oc expose dc hooq --name=hooq --type=NodePort --port=8080
 oc expose service hooq
 minishift openshift service hooq --in-browser
 ```
+
+# Export yaml
+```bash
+oc export all --as-template=hooq > hooq.yaml
+kubectl get --export -o yaml > minikube.yaml
+# or
+kubectl get po,deployment,rc,rs,ds,no,job -o yaml > minikube.yaml
+for n in $(kubectl get -o=name pvc,configmap,serviceaccount,secret,ingress,service,deployment,statefulset,hpa,job,cronjob)
+do
+    mkdir -p $(dirname $n)
+    kubectl get -o=yaml --export $n > $n.yaml
+done
+```

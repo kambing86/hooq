@@ -8,21 +8,13 @@ const deployPath = path.join(__dirname, "dist");
 const serverPort = 8080;
 const environment = process.env.NODE_ENV;
 
-module.exports = (env, argv, isExpress) => {
+module.exports = () => {
   const config = {
     devtool: "source-map",
     entry: {
-      "babel-polyfill": [
-        "babel-polyfill",
-      ],
       index: [
+        "babel-polyfill",
         "./index.jsx",
-      ],
-      vendor: [
-        "react",
-        "react-dom",
-        "redux",
-        "react-redux",
       ],
     },
     context: sourcePath,
@@ -51,6 +43,7 @@ module.exports = (env, argv, isExpress) => {
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
         options: {
+          plugins: ["lodash"],
           cacheDirectory: true,
         },
       }, {
@@ -83,7 +76,8 @@ module.exports = (env, argv, isExpress) => {
     },
     plugins: [
       new webpack.optimize.CommonsChunkPlugin({
-        names: ["vendor", "manifest"],
+        name: "vendor",
+        minChunks: module => module.context && module.context.indexOf("node_modules") !== -1,
       }),
       new webpack.DefinePlugin({
         DEVELOPMENT: environment === "development",
@@ -135,13 +129,15 @@ module.exports = (env, argv, isExpress) => {
     // enable HMR globally
     // needed if webpack-dev-server run without --hot
     // config.entry["index"].unshift(`webpack-dev-server/client?http://localhost:${serverPort}/`, "webpack/hot/only-dev-server");
-    if (isExpress) {
-      config.entry.index.unshift("webpack-hot-middleware/client");
-      config.plugins.push(new webpack.HotModuleReplacementPlugin());
-    }
+    config.entry.index.unshift("webpack-hot-middleware/client");
+    config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
     // prints more readable module names in the browser console on HMR updates
     config.plugins.push(new webpack.NamedModulesPlugin());
+  }
+  if (process.env.BUNDLE === "true") {
+    const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+    config.plugins.push(new BundleAnalyzerPlugin());
   }
   return config;
 };
