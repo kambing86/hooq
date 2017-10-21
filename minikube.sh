@@ -1,4 +1,6 @@
 #!/bin/bash
+projectName=$1
+echo "Building $projectName..."
 minikube start --insecure-registry localhost:5000
 kubectl config use-context minikube
 echo 'apiVersion: v1
@@ -85,10 +87,10 @@ spec:
       hostPort: 5000
 ' | kubectl apply -f -
 eval $(minikube docker-env)
-docker build . -t hooq
-docker tag hooq localhost:5000/hooq
-docker push localhost:5000/hooq
+docker build . -t $projectName
+docker tag $projectName localhost:5000/$projectName
+docker push localhost:5000/$projectName
 kubectl config use-context minikube
-eval $(echo "kubectl run hooq --image=localhost:5000/hooq $(cat .env | xargs -n 1 | while read x ; do printf ' --env='$x'' ; done) --port=8080")
-kubectl expose deployment hooq --type=NodePort
-minikube service hooq
+eval $(echo "kubectl run $projectName --image=localhost:5000/$projectName $(cat .env | xargs -n 1 | while read x ; do printf ' --env='$x'' ; done) --port=8080")
+kubectl expose deployment $projectName --type=NodePort
+minikube service $projectName

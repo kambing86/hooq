@@ -136,7 +136,9 @@ module.exports = () => {
     config.plugins.push(new webpack.NamedModulesPlugin());
   }
   if (process.env.BUNDLE === "true") {
-    const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+    const {
+      BundleAnalyzerPlugin,
+    } = require("webpack-bundle-analyzer");
     config.plugins.push(new BundleAnalyzerPlugin());
   }
   return config;

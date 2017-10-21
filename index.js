@@ -1,9 +1,9 @@
 const http = require("http");
 const express = require("express");
 const skipMap = require("skip-map");
+const ServerShutdown = require("server-shutdown");
 const graphqlHTTP = require("express-graphql");
 const MyGraphQLSchema = require("./server/graphql-schema");
-const ServerShutdown = require("server-shutdown");
 
 const app = express();
 const httpServer = http.createServer(app);

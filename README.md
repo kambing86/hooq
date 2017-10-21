@@ -31,45 +31,22 @@ heroku container:push web
 ```
 
 # How to deploy to Minikube
+install minikube
+```bash
+brew cask install minikube
+brew install kubectl
+```
 start minikube with local registry
 ```bash
-#!/bin/bash
-eval $(minikube docker-env)
-docker build . -t hooq
-docker tag hooq localhost:5000/hooq
-docker push localhost:5000/hooq
-kubectl config use-context minikube
-kubectl run hooq --image=localhost:5000/hooq --env="MOVIE_DB_3_KEY=<API_KEY>" --port=8080
-kubectl expose deployment hooq --type=NodePort
-minikube service hooq
+./minikube.sh hooq
 ```
 
 # How to deploy to Minishift
+install minishift
+```bash
+brew cask install minishift
+```
 start minishift
 ```bash
-#!/bin/bash
-eval $(minishift docker-env)
-docker build . -t hooq
-eval $(minishift oc-env)
-oc config use-context minishift
-docker login -u developer -p $(oc whoami -t) $(minishift openshift registry)
-docker tag hooq $(minishift openshift registry)/myproject/hooq
-docker push $(minishift openshift registry)/myproject/hooq
-oc new-app --image-stream=hooq --name=hooq --env="MOVIE_DB_3_KEY=<API_KEY>"
-oc expose dc hooq --name=hooq --type=NodePort --port=8080
-oc expose service hooq
-minishift openshift service hooq --in-browser
-```
-
-# Export yaml
-```bash
-oc export all --as-template=hooq > hooq.yaml
-kubectl get --export -o yaml > minikube.yaml
-# or
-kubectl get po,deployment,rc,rs,ds,no,job -o yaml > minikube.yaml
-for n in $(kubectl get -o=name pvc,configmap,serviceaccount,secret,ingress,service,deployment,statefulset,hpa,job,cronjob)
-do
-    mkdir -p $(dirname $n)
-    kubectl get -o=yaml --export $n > $n.yaml
-done
+./minishift.sh hooq
 ```
