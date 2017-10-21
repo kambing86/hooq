@@ -40,9 +40,20 @@ httpServer.listen(port, () => {
   }
 });
 
+let alive = true;
+app.get("/health", (req, res) => {
+  if (alive) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(500);
+  }
+});
 serverShutdown.registerServer(httpServer);
 process.on("SIGTERM", () => {
-  serverShutdown.shutdown(() => {
-    process.exit();
-  });
+  alive = false;
+  setTimeout(() => {
+    serverShutdown.shutdown(() => {
+      process.exit();
+    });
+  }, 5000);
 });

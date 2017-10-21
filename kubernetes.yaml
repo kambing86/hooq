@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: {{projectName}}
+  name: {{projectName}}
+  namespace: {{projectName}}
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      run: {{projectName}}
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        run: {{projectName}}
+    spec:
+      containers:
+      - env:
+        - name: NODE_ENV
+          value: production
+        - name: MOVIE_DB_3_KEY
+          value: 5efc18e2c2a89f9cd0d15ab53792488d
+        image: {{imagePath}}
+        name: {{projectName}}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: {{projectName}}
+  name: {{projectName}}
+  namespace: {{projectName}}
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: {{projectName}}
+  type: NodePort
