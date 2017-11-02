@@ -1,13 +1,13 @@
-import ApolloClient, { createNetworkInterface } from "apollo-client";
+import { ApolloClient } from "apollo-client";
+import { HttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
 import gql from "graphql-tag";
 import _ from "lodash";
 
 const client = new ApolloClient({
-  networkInterface: createNetworkInterface({
-    uri: "/graphql",
-  }),
+  link: new HttpLink(),
+  cache: new InMemoryCache(),
 });
-
 export default {
   getTvList(query = {}) {
     let queryString = "";
@@ -16,7 +16,7 @@ export default {
       queryString = `(${queryValues.join(",")})`;
     }
     return client.query({
-      query: gql `
+      query: gql`
         query {
           tvs${queryString} {
             id
@@ -36,7 +36,7 @@ export default {
   },
   getTv(id) {
     return client.query({
-      query: gql `
+      query: gql`
         query {
           tv(id:${id}) {
             id

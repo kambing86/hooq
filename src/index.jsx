@@ -35,19 +35,23 @@ const appRoot = document.getElementById("app");
 
 const render = () => {
   if (DEVELOPMENT) {
-    ReactDOM.render((
-      <AppContainer>
+    ReactDOM.render(
+      (
+        <AppContainer>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </AppContainer>
+      ), appRoot,
+    );
+  } else {
+    ReactDOM.render(
+      (
         <Provider store={store}>
           <App />
         </Provider>
-      </AppContainer>
-    ), appRoot);
-  } else {
-    ReactDOM.render((
-      <Provider store={store}>
-        <App />
-      </Provider>
-    ), appRoot);
+      ), appRoot,
+    );
   }
 };
 
@@ -69,3 +73,9 @@ if (DEVELOPMENT) {
   store.dispatch(initFavourite(fav));
   store.dispatch(setLoading(false));
 })();
+
+if (!DEVELOPMENT) {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+  }
+}

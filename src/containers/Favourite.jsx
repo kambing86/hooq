@@ -11,7 +11,8 @@ const Favourite = ({ state: fav, dispatch }) => {
     <div key={f.id}>
       <button onClick={() =>
         dispatch(removeFavourite(f))}
-      >Remove</button>
+      >Remove
+      </button>
       <Link to={`/tv/${f.id}`}>{f.name}</Link>
     </div>
   ));

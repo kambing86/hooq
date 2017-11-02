@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 // const CopyWebpackPlugin = require("copy-webpack-plugin");
 // const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
 
 const sourcePath = path.join(__dirname, "src");
 const deployPath = path.join(__dirname, "dist");
@@ -99,6 +100,12 @@ module.exports = () => {
         output: {
           comments: false,
         },
+      }),
+      new SWPrecacheWebpackPlugin({
+        cacheId: "hooq",
+        filename: "service-worker.js",
+        minify: true,
+        staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
       }),
       // new webpack.SourceMapDevToolPlugin({
       //   filename: "[file].map",

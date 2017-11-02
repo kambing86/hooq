@@ -23,7 +23,7 @@ class TvDetail extends React.Component {
     this.props.dispatch(setLoading(true));
     helper.getTv(id).then((result) => {
       this.props.dispatch(setLoading(false));
-      const data = result.data;
+      const { data } = result;
       this.setState({ data });
       const firstSeasonNumber = _.head(data.tv.details.seasons).season_number;
       if (firstSeasonNumber !== undefined) {
@@ -47,10 +47,12 @@ class TvDetail extends React.Component {
             {(fav.find(f => f.id === tv.id)) ?
               <button onClick={() =>
                 this.props.dispatch(removeFavourite(tv))}
-              >Remove Favourite</button> :
+              >Remove Favourite
+              </button> :
               <button onClick={() =>
                 this.props.dispatch(addFavourite(tv))}
-              >Add Favourite</button>}
+              >Add Favourite
+              </button>}
             <h1>{tv.name}</h1>
             {getPoster(tv.poster_path)}
             <h3>{tv.overview}</h3>

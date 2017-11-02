@@ -1,4 +1,4 @@
-FROM node:8.7-alpine
+FROM node:8.9-alpine
 WORKDIR /app
 RUN npm install yarn -g && chown -R node /app
 USER node

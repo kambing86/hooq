@@ -1,6 +1,6 @@
 # How to Run
 1. install chrome
-2. install node.js v8.7.0
+2. install node.js v8.9.0
 3. install yarn v1.2.1
 4. ```yarn && yarn start```
 

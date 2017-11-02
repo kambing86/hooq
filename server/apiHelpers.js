@@ -2,7 +2,7 @@ const cacheHelper = require("./cacheHelper");
 const queryString = require("query-string");
 const moment = require("moment");
 
-const MOVIE_DB_3_KEY = process.env.MOVIE_DB_3_KEY;
+const { MOVIE_DB_3_KEY } = process.env;
 const BASE_URL = "https://api.themoviedb.org/3/";
 
 module.exports = {
