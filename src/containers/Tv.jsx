@@ -71,14 +71,16 @@ class Tv extends React.Component {
     const { page = "1" } = queryString.parse(this.props.location.search);
     let tvList = null;
     if (this.state.data) {
-      tvList = this.state.data.tvs.map(tv =>
-        (
-          <div className="tv-button" role="button" key={tv.id} onClick={() => this.tvClick(tv.id)}>
-            {getPoster(tv.poster_path)}
-            <div className="tv-name">{tv.name}</div>
-            <div className="cover" />
-          </div>
-        ));
+      tvList = this.state.data.tvs
+        .filter(tv => tv !== null)
+        .map(tv =>
+          (
+            <div className="tv-button" role="button" key={tv.id} onClick={() => this.tvClick(tv.id)}>
+              {getPoster(tv.poster_path)}
+              <div className="tv-name">{tv.name}</div>
+              <div className="cover" />
+            </div>
+          ));
     }
     return (
       <div className="main-view">
