@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 projectName=$1
 if [ -z "$projectName" ]; then
   echo "Please execute with minishift [name]"
@@ -7,6 +7,7 @@ fi
 echo "Building $projectName..."
 minishift config set vm-driver virtualbox
 minishift start
+minishift openshift config set --patch '{"routingConfig": {"subdomain": "'$(minishift ip)'.xip.io"}}'
 eval $(minishift docker-env)
 docker build . -t $projectName
 eval $(minishift oc-env)

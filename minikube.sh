@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 projectName=$1
 if [ -z "$projectName" ]; then
   echo "Please execute with minikube [name]"
@@ -7,6 +7,7 @@ fi
 echo "Building $projectName..."
 minikube start --insecure-registry localhost:5000
 kubectl config use-context minikube
+sleep 10s
 kubectl apply -f ./minikube-registry.yaml
 eval $(minikube docker-env)
 docker build . -t $projectName
