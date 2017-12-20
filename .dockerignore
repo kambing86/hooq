@@ -1,5 +1,7 @@
 node_modules
 dist
 docs
+monitor
 .env
 .git
+.vscode

@@ -149,11 +149,17 @@ module.exports = () => {
     // prints more readable module names in the browser console on HMR updates
     config.plugins.push(new webpack.NamedModulesPlugin());
   }
-  if (process.env.BUNDLE === "true") {
+  if (process.env.BUNDLE_ANALYZER === "true") {
     const {
       BundleAnalyzerPlugin,
     } = require("webpack-bundle-analyzer");
     config.plugins.push(new BundleAnalyzerPlugin());
+  }
+  if (process.env.WEBPACK_MONITOR === "true") {
+    const WebpackMonitor = require("webpack-monitor");
+    config.plugins.push(new WebpackMonitor({
+      launch: true,
+    }));
   }
   return config;
 };

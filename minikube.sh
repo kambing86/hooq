@@ -1,5 +1,5 @@
 #!/bin/sh
-projectName=$1
+projectName=$(node -e 'console.log(require("./package.json").name)')
 if [ -z "$projectName" ]; then
   echo "Please execute with minikube [name]"
   exit
