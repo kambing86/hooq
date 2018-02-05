@@ -2,7 +2,8 @@ const http = require("http");
 const express = require("express");
 const skipMap = require("skip-map");
 const ServerShutdown = require("server-shutdown");
-const graphqlHTTP = require("express-graphql");
+const bodyParser = require("body-parser");
+const { graphqlExpress, graphiqlExpress } = require("apollo-server-express");
 const MyGraphQLSchema = require("./server/graphql-schema");
 
 const app = express();
@@ -12,7 +13,6 @@ const serverShutdown = new ServerShutdown();
 const isDevelopment = process.env.NODE_ENV === "development";
 const graphqlConfig = {
   schema: MyGraphQLSchema,
-  graphiql: true,
 };
 if (isDevelopment) {
   const webpack = require("webpack");
@@ -24,14 +24,14 @@ if (isDevelopment) {
     // publicPath: webpackConfig.output.path,
   }));
   app.use(webpackHotMiddleware(compiler));
+  app.get("/graphiql", graphiqlExpress({ endpointURL: "/graphql" }));
 } else {
   app.use(express.static("dist"));
-  graphqlConfig.graphiql = false;
 }
 
 app.use(skipMap());
 
-app.use("/graphql", graphqlHTTP(graphqlConfig));
+app.use("/graphql", bodyParser.json(), graphqlExpress(graphqlConfig));
 
 const port = process.env.PORT || 8080;
 httpServer.listen(port, () => {

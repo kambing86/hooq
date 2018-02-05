@@ -1,6 +1,5 @@
 import { ApolloClient } from "apollo-client";
-import { HttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { HttpLink, InMemoryCache } from "apollo-client-preset";
 import gql from "graphql-tag";
 import _ from "lodash";
 
