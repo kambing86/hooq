@@ -34,11 +34,7 @@ app.use(skipMap());
 app.use("/graphql", bodyParser.json(), graphqlExpress(graphqlConfig));
 
 const port = process.env.PORT || 8080;
-httpServer.listen(port, () => {
-  if (isDevelopment) {
-    require("opn")(`http://localhost:${port}`);
-  }
-});
+httpServer.listen(port);
 
 let alive = true;
 app.get("/health", (req, res) => {

@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 // const CopyWebpackPlugin = require("copy-webpack-plugin");
 // const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
 
 const sourcePath = path.join(__dirname, "src");
@@ -75,11 +76,34 @@ module.exports = () => {
       // "jquery": "$",
       // "angular-validation": "validation",
     },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendor",
+            chunks: "all",
+          },
+        },
+      },
+      minimize: true,
+      minimizer: [
+        new UglifyJsPlugin({
+          sourceMap: true,
+          uglifyOptions: {
+            mangle: {
+              properties: {
+                regex: /^rn_.+_rn$/,
+              },
+            },
+            output: {
+              comments: false,
+            },
+          },
+        }),
+      ],
+    },
     plugins: [
-      new webpack.optimize.CommonsChunkPlugin({
-        name: "vendor",
-        minChunks: module => module.context && module.context.indexOf("node_modules") !== -1,
-      }),
       new webpack.DefinePlugin({
         DEVELOPMENT: environment === "development",
         "process.env": {
@@ -87,33 +111,6 @@ module.exports = () => {
         },
       }),
       // new CopyWebpackPlugin([{ from: "assets" }]),
-      new webpack.optimize.UglifyJsPlugin({
-        sourceMap: true,
-        compress: {
-          warnings: false,
-        },
-        mangle: {
-          props: {
-            regex: /^rn_.+_rn$/,
-          },
-        },
-        output: {
-          comments: false,
-        },
-      }),
-      new WorkboxPlugin({
-        globDirectory: deployPath,
-        globPatterns: ["**/*.{html,js}"],
-        swDest: path.join(deployPath, "service-worker.js"),
-        clientsClaim: true,
-        skipWaiting: true,
-        runtimeCaching: [
-          {
-            urlPattern: new RegExp(".*"),
-            handler: "networkFirst",
-          },
-        ],
-      }),
       // new webpack.SourceMapDevToolPlugin({
       //   filename: "[file].map",
       //   append: false,
@@ -148,6 +145,20 @@ module.exports = () => {
 
     // prints more readable module names in the browser console on HMR updates
     config.plugins.push(new webpack.NamedModulesPlugin());
+  } else {
+    config.plugins.push(new WorkboxPlugin({
+      globDirectory: deployPath,
+      globPatterns: ["**/*.{html,js}"],
+      swDest: path.join(deployPath, "service-worker.js"),
+      clientsClaim: true,
+      skipWaiting: true,
+      runtimeCaching: [
+        {
+          urlPattern: new RegExp(".*"),
+          handler: "networkFirst",
+        },
+      ],
+    }));
   }
   if (process.env.BUNDLE_ANALYZER === "true") {
     const {

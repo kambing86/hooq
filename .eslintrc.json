@@ -60,7 +60,9 @@
       "components": [],
       "specialLink": [],
       "aspects": ["noHref", "invalidHref", "preferButton"]
-    }]
+    }],
+    "react/prefer-stateless-function": 0,
+    "import/prefer-default-export": 0
   },
   "globals": {
     "DEVELOPMENT": true
